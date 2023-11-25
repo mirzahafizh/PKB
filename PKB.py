@@ -50,7 +50,10 @@ class NQueensGame:
             self.board = solution
             self.draw_board()
 
-        print(f"Waktu Eksekusi solve(): {execution_time} detik")
+            end_time = time.time()
+            execution_time = end_time - start_time
+            print(f"Waktu Eksekusi solve(): {execution_time} detik")
+
 
     def reset(self):
         #self.board = self.initial_solution()
