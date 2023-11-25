@@ -9,6 +9,7 @@ class NQueensGame:
         self.n = n
         self.master.title("N-Queens Game")
 
+        #self.board = self.initial_solution()
         self.board = [1, 0, 2, 6, 4, 7, 5, 3]
 
         self.label = tk.Label(master, text="N-Queens Game")
