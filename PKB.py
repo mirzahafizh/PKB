@@ -1,6 +1,7 @@
 import random
-import tkinter as tk
 import time
+import tkinter as tk
+from tkinter import messagebox
 
 
 class NQueensGame:
@@ -14,6 +15,9 @@ class NQueensGame:
 
         self.label = tk.Label(master, text="N-Queens Game")
         self.label.pack()
+
+        self.attacks_label = tk.Label(master, text="Attacks: 0")
+        self.attacks_label.pack()
 
         self.canvas_size = 60
         self.canvas = tk.Canvas(master, width=n * self.canvas_size, height=n * self.canvas_size)
@@ -38,7 +42,12 @@ class NQueensGame:
                     self.canvas.create_text((j + 0.5) * self.canvas_size, (i + 0.5) * self.canvas_size,
                                             text="Q", font=("Helvetica", 12), fill="red")
 
+        # Tampilkan jumlah serangan pada label
+        current_attacks = self.calculate_attacks(self.board)
+        self.attacks_label.config(text=f"Attacks: {current_attacks}")
+
     def solve(self):
+        self.solve_button.config(state=tk.DISABLED)
         # Mulai mengukur waktu eksekusi
         start_time = time.time()
 
@@ -55,6 +64,14 @@ class NQueensGame:
             execution_time = end_time - start_time
             print(f"Waktu Eksekusi solve(): {execution_time} detik")
 
+        self.solve_button.config(state=tk.NORMAL)  # Mengaktifkan tombol "Solve" kembali
+
+        if solution:
+            self.board = solution
+            self.draw_board()
+            messagebox.showinfo("Info", f"Solusi ditemukan dalam {execution_time} detik\nJumlah serangan: {self.calculate_attacks(self.board)}")
+        else:
+            messagebox.showinfo("Info", "Tidak ada solusi yang ditemukan dalam batas iterasi yang diberikan.")
 
     def reset(self):
         #self.board = self.initial_solution()
@@ -112,7 +129,6 @@ def main():
     root = tk.Tk()
     game = NQueensGame(root, n=8)
     root.mainloop()
-
 
 if __name__ == "__main__":
     main()
